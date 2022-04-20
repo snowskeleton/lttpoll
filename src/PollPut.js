@@ -1,5 +1,6 @@
 function PollPut(body) {
-    return fetch(
+    console.log('hey guys')
+    fetch(
         "https://6x0en74zod.execute-api.us-east-2.amazonaws.com/polls", {
         "method": "PUT",
         "headers": {

@@ -31,9 +31,8 @@ const ProgressBar = ({bgcolor,progress,height}) => {
 	</div>
 	</div>
 	)
+// example, commented out.
+        {/* <ProgressBar bgcolor={this.state.color} progress={this.state.progression} height={30} width={10} /> */}
 }
 
 export default ProgressBar;
-
-// example, commented out.
-        {/* <ProgressBar bgcolor={this.state.color} progress={this.state.progression} height={30} width={10} /> */}
