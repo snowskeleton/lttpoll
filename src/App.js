@@ -8,7 +8,7 @@ function App() {
     <div className="App">
 
         <Routes>
-          <Route path="/getPoll/:pollID" element={<Poll />}></Route>
+          <Route path="/poll/:pollID" element={<Poll />}></Route>
           <Route path='/' element={<MakePoll />}></Route>
         </Routes>
     </div>

@@ -12,38 +12,47 @@ function MakePoll() {
   const CreatePoll = async () => {
     const body = BuildBody(name, [optOneName, optTwoName])
     await fetch(
-      "https://6x0en74zod.execute-api.us-east-2.amazonaws.com/polls", {
+      "https://6x0en74zod.execute-api.us-east-2.amazonaws.com/poll", {
       "method": "PUT",
       "headers": {
         "content-type": "application/json",
       },
       "body": body
-    });
-    window.location.replace(`/getPoll/${JSON.parse(body).id}`);
+    })
+    console.log(body)
+    window.location.replace(`/poll/${JSON.parse(body).id}`);
   };
 
   return (
     <div className="App">
       <header className='App-header'>
 
+        <p>Share your controversial opinion with the world</p>
         <input
-          className="name"
           onChange={setNameInput}
+          className="name large"
           value={name}
-          placeholder="Title your Poll" />
+          placeholder="title" />
+
+        <p className='large'>Let the internet decide!</p>
+        <p>Will it be ...</p>
         <input
           onChange={setOptionOneInput}
-          className="opt1"
+          className="opt1 large"
           value={optOneName}
-          placeholder="Option 1" />
+          placeholder="option one" />
+
+          <p>Or ...</p>
         <input
           onChange={setOptionTwoInput}
-          className="opt2"
+          className="opt2 large"
           value={optTwoName}
-          placeholder="Option 2" />
+          placeholder="option two" />
 
-        <button onClick={CreatePoll}>
-          Create
+        <h6>* please hire me </h6>
+        <button
+        onClick={CreatePoll}>
+          Pose
         </button>
 
       </header>
