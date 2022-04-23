@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import BuildBody from './BodyBuilder';
+import { api } from './utils';
 
 function MakePoll() {
   const [name, setName] = useState('')
@@ -12,8 +13,7 @@ function MakePoll() {
 
   const CreatePoll = async () => {
     const body = BuildBody(name, [optOneName, optTwoName])
-    await fetch(
-      "https://6x0en74zod.execute-api.us-east-2.amazonaws.com/poll", {
+    await fetch(api.createNew, {
       "method": "PUT",
       "headers": {
         "content-type": "application/json",

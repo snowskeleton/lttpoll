@@ -2,7 +2,7 @@ html{
   text-align: center;
   background-color: #DB4105;
   min-height: 100vh;
-  min-width: 50vh;
+  min-width: 95vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,13 +16,6 @@ html{
   height: 10vh;
   max-height: 30px;
   font-size: 3vh;
-}
-
-.a:href {
-	font-weight: lighter;
-	font-size: smaller;
-	color: green;
-	border-bottom: clear;
 }
 
 footer {

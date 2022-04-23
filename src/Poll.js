@@ -1,50 +1,27 @@
-import { useParams } from "react-router-dom"
 import React, { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom"
+import { useInterval, api } from "./utils";
 import ProgressBar from './Progress_bar'
-import { useInterval } from "./utils";
+import VoteButton from './VoteButton'
 
 export default function Poll() {
-    const sendVote = (vote) => {
-        setShowVoting(false)
-        fetch(
-            "https://6x0en74zod.execute-api.us-east-2.amazonaws.com/option/" +
-            vote.target.value, { "method": "PATCH", })
-    }
+
     let params = useParams()
-
     const [poll, setPoll] = useState()
-
+    const totalVotes = () => { return options[0].votes + options[1].votes }
     var [showVoteing, setShowVoting] = useState(true)
     var [options, setOptions] = useState(poll ? poll.options : [])
 
-    useEffect(() => {
-        fetch("https://6x0en74zod.execute-api.us-east-2.amazonaws.com/poll/" + params.pollID)
-            .then(response => response.json())
-            .then(data => { setPoll(data.body); setOptions((data.body.options)) })
-        if (poll) { roachly() }
-    }, []);
-
-    useInterval(() => { roachly() },
-        5000)
-
-    const roachly = () => {
-        const baseUrl = 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/votes/';
-        const arrayAsString = poll ? ([options[0].id, options[1].id].join('&')) : null
-        fetch(baseUrl + arrayAsString)
-            .then(response => response.json())
-            .then(data => { setOptions({ ...data.body }) })
+    const vote = (ballot) => {
+        if (showVoteing) {
+            fetch( api.vote + ballot.target.value, { "method": "PATCH", })
+        }
+        setShowVoting(false)
     }
-
-    const optVal = (optVal) => {
-        //null check
-        if (!poll) { return 0 }
-
-        //math
-        let total = options[0].votes + options[1].votes
-        var perc = ((optVal.votes / total) * 100)
-
-        //check to make sure the return value is usable (i.e., won't show 'NaN'),
-        //otherwise return 0.
+    const votePercentage = (optVal) => {
+        if (!poll) { return 0 } //null check
+        const perc = ((optVal.votes / totalVotes()) * 100) //math
+        //if return value shows 'NaN', return 0 instead
         //for some reason, a ternary doesn't work here
         if (perc) {
             return perc.toFixed(1)
@@ -52,60 +29,56 @@ export default function Poll() {
             return 0
         }
     }
-    const totalVotes = () => {
-        return options[0].votes + options[1].votes
+
+    useEffect(() => {
+        fetch(api.getPoll + params.pollID)
+            .then(response => response.json())
+            .then(data => {
+                setPoll(data.body);
+                setOptions((data.body.options));
+            });
+        if (poll) { roachly() }
+    }, []);
+
+    function roachly() {
+        const aas = poll ?
+            ([
+                options[0].id,
+                options[1].id]
+                .join('&'))
+            : null;
+        fetch(api.getVotes + aas)
+            .then(response => response.json())
+            .then(data => { setOptions({ ...data.body }); });
     }
 
-    function copyToClipboard() {
-        function myFunction() {
-            navigator.clipboard.writeText();
-            /* Alert the copied text */
-            alert("Copied the text: ");
-        }
-    }
+    // this runs every x miliseconds
+    useInterval(() => { roachly(); },
+        5000)
 
     return (
         <div className="App">
             <h1> {poll ? poll.name : ''} </h1>
             <h2> Total votes: {poll ? totalVotes() : ''}</h2>
 
-            {poll ?
-                button(
-                    options[0],
-                    sendVote,
-                    'vote!',
-                    showVoteing
-                )
+            {poll ? VoteButton(options[0], vote, showVoteing) : null}
+            {!showVoteing ?
+                <ProgressBar
+                    className="bar"
+                    progress={votePercentage(options[0])}
+                />
                 : null}
-            <ProgressBar bgcolor='green' progress={optVal(options[0])} height={45} width={10} />
 
-            {poll ?
-                button(
-                    options[1],
-                    sendVote,
-                    'vote!',
-                    showVoteing
-                )
+            {poll ? VoteButton( options[1], vote, showVoteing) : null}
+            {!showVoteing ?
+                <ProgressBar
+                    progress={votePercentage(options[1])}
+                />
                 : null}
-            <ProgressBar bgcolor='green' progress={optVal(options[1])} height={45} width={10} />
 
+            <p>Share your question with the world</p>
+            <p><a href={window.location.href}>{window.location.href}</a></p>
             <a href="https://runty.link/lttpoll/">Make another Poll</a>
         </div>
     );
 };
-
-function button(data, func, label, show) {
-    return (
-        <div>
-            <h3>{data.text}</h3>
-            {show ?
-                <button
-                    value={data.id}
-                    onClick={func}>
-                    {label}
-                </button>
-                : null}
-        </div>
-    )
-
-}

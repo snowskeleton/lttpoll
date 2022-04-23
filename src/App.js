@@ -9,6 +9,7 @@ function App() {
 
         <Routes>
           <Route path="/lttpoll/poll/:pollID" element={<Poll />}></Route>
+          <Route path="/poll/:pollID" element={<Poll />}></Route>
           <Route path='/lttpoll/' element={<MakePoll />}></Route>
           <Route path='/' element={<MakePoll />}></Route>
         </Routes>
