@@ -5,6 +5,7 @@ function MakePoll() {
   const [name, setName] = useState('')
   const [optOneName, setOptionOne] = useState('')
   const [optTwoName, setOptionTwo] = useState('')
+  const [url, setUrl] = useState('')
   const setNameInput = e => { setName(e.target.value); };
   const setOptionOneInput = e => { setOptionOne(e.target.value); };
   const setOptionTwoInput = e => { setOptionTwo(e.target.value); };
@@ -19,18 +20,16 @@ function MakePoll() {
       },
       "body": body
     })
-    console.log(body)
-    window.location.replace(`/poll/${JSON.parse(body).id}`);
+      .then(setUrl(`https://runty.link/lttpoll/poll/${JSON.parse(body).id}`))
   };
 
   return (
     <div className="App">
-      <header className='App-header'>
 
         <p>Share your controversial opinion with the world</p>
         <input
           onChange={setNameInput}
-          className="name large"
+          className="input name large"
           value={name}
           placeholder="title" />
 
@@ -38,24 +37,28 @@ function MakePoll() {
         <p>Will it be ...</p>
         <input
           onChange={setOptionOneInput}
-          className="opt1 large"
+          className="input opt1 large"
           value={optOneName}
           placeholder="option one" />
 
-          <p>Or ...</p>
+        <p>Or ...</p>
         <input
           onChange={setOptionTwoInput}
-          className="opt2 large"
+          className="input opt2 large"
           value={optTwoName}
           placeholder="option two" />
 
-        <h6>* please hire me </h6>
+        <vstack>
+        <p>Share your question with the world</p>
+        <a href={url}>{url}</a>
+
+        <p></p>
         <button
-        onClick={CreatePoll}>
+          onClick={CreatePoll}>
           Pose
         </button>
+        </vstack>
 
-      </header>
     </div>
   );
 }

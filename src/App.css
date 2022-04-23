@@ -1,8 +1,5 @@
-.App {
+html{
   text-align: center;
-}
-
-.App-header {
   background-color: #DB4105;
   min-height: 100vh;
   min-width: 50vh;
@@ -11,7 +8,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  font-weight: 1000;
+  font-weight: bold;
   color: black;
 }
 
@@ -21,16 +18,27 @@
   font-size: 3vh;
 }
 
+.a:href {
+	font-weight: lighter;
+	font-size: smaller;
+	color: green;
+	border-bottom: clear;
+}
+
+footer {
+	font-size: small;
+}
+
 input {
 	border-top: 15px; /* why does setting any value to the border segment make it the same color as the background?*/
-	border-left: 2px ;
-	border-right: 2px ;
-	/* border-radius: 8px; */
-	font-size: 1rem;
-	margin: 0.25rem;
+	border-left: 20298347px ;
+	border-right: 20px ;
+	/* margin: 0.25rem; */
 	min-width: 125px;
 	padding: 0.5rem;
-	transition: background-color 0.5s ease-out;
+	color: black;
+	forced-color-adjust: black;
+	/* transition: background-color 0.5s ease-out; */
 	background-color: #DB4105;
 	border-top-color: clear;
   }

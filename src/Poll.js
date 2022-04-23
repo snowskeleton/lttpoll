@@ -21,10 +21,11 @@ export default function Poll() {
         fetch("https://6x0en74zod.execute-api.us-east-2.amazonaws.com/poll/" + params.pollID)
             .then(response => response.json())
             .then(data => { setPoll(data.body); setOptions((data.body.options)) })
+        if (poll) { roachly() }
     }, []);
 
     useInterval(() => { roachly() },
-        10000)
+        5000)
 
     const roachly = () => {
         const baseUrl = 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/votes/';
@@ -35,50 +36,60 @@ export default function Poll() {
     }
 
     const optVal = (optVal) => {
+        //null check
         if (!poll) { return 0 }
+
+        //math
         let total = options[0].votes + options[1].votes
         var perc = ((optVal.votes / total) * 100)
-        return perc.toFixed(1)
+
+        //check to make sure the return value is usable (i.e., won't show 'NaN'),
+        //otherwise return 0.
+        //for some reason, a ternary doesn't work here
+        if (perc) {
+            return perc.toFixed(1)
+        } else {
+            return 0
+        }
     }
     const totalVotes = () => {
         return options[0].votes + options[1].votes
     }
 
-
-    // const optVal = () => {
-    //     if (!poll) { return 0 }
-    //     let total = options[0].votes + options[1].votes
-    //     var perc = ((options[1].votes / total) * 100)
-    //     return perc.toFixed()
-    // }
+    function copyToClipboard() {
+        function myFunction() {
+            navigator.clipboard.writeText();
+            /* Alert the copied text */
+            alert("Copied the text: ");
+        }
+    }
 
     return (
         <div className="App">
-            <header className="App-header">
-                <h1> {poll ? poll.name : ''} </h1>
-                <h2> Total votes: {poll? totalVotes() : ''}</h2>
+            <h1> {poll ? poll.name : ''} </h1>
+            <h2> Total votes: {poll ? totalVotes() : ''}</h2>
 
-                {poll ?
-                    button(
-                        options[0],
-                        sendVote,
-                        'vote!',
-                        showVoteing
-                    )
-                    : null}
-                <ProgressBar bgcolor='green' progress={optVal(options[0])} height={30} width={10} />
+            {poll ?
+                button(
+                    options[0],
+                    sendVote,
+                    'vote!',
+                    showVoteing
+                )
+                : null}
+            <ProgressBar bgcolor='green' progress={optVal(options[0])} height={45} width={10} />
 
-                {poll ?
-                    button(
-                        options[1],
-                        sendVote,
-                        'vote!',
-                        showVoteing
-                    )
-                    : null}
-                <ProgressBar bgcolor='green' progress={optVal(options[1])} height={30} width={10} />
+            {poll ?
+                button(
+                    options[1],
+                    sendVote,
+                    'vote!',
+                    showVoteing
+                )
+                : null}
+            <ProgressBar bgcolor='green' progress={optVal(options[1])} height={45} width={10} />
 
-            </header>
+            <a href="https://runty.link/lttpoll/">Make another Poll</a>
         </div>
     );
 };

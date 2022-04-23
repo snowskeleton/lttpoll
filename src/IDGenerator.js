@@ -1,7 +1,6 @@
-import { Buffer } from 'buffer';
-function NewID(seed) {
-    const pt = (seed + Date.now())
-    return Buffer.from(pt).toString('base64')
+import { nanoid } from 'nanoid'
+function NewID() {
+    return nanoid(7)
 }
 
 export default NewID
