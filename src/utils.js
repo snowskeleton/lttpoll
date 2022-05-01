@@ -21,10 +21,11 @@ export const useInterval = (callback, delay) => {
 }
 
 // api endpiont strings, hidden away to make the rest of the code cleaner
+let baseURL = 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/'
 const api = {
-  createNew: 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/poll',
-  getPoll: 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/poll/',
-  vote: 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/option/',
-  getVotes: 'https://6x0en74zod.execute-api.us-east-2.amazonaws.com/votes/',
+  createNew: baseURL + 'poll',
+  getPoll: baseURL + 'poll/',
+  vote: baseURL + 'option/',
+  getVotes: baseURL + 'votes/',
 }
 export { api }

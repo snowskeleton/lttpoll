@@ -1,6 +1,6 @@
 html{
   text-align: center;
-  background-color: #DB4105;
+  background-color: #fc4c02;
   min-height: 100vh;
   min-width: 95vh;
   display: flex;
@@ -32,7 +32,7 @@ input {
 	color: black;
 	forced-color-adjust: black;
 	/* transition: background-color 0.5s ease-out; */
-	background-color: #DB4105;
+	background-color: #fc4c02;
 	border-top-color: clear;
   }
 input:focus {
@@ -49,7 +49,7 @@ button {
   display: inline-block;
   background-color: black;
   border-radius: 10px;
-  border: 4px double #DB4105;
+  border: 4px double #fc4c02;
   color: white;
   font-weight: 1000;
   text-align: center;
